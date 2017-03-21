@@ -1,0 +1,1 @@
+当ajax使用post方式，并且使用了非默认的content-type，浏览器会触发预查询，询问服务端可以接受哪种类型的http方式[https://developer.mozilla.org/zh-CN/docs/Web/HTTP/Access_control_CORS](https://developer.mozilla.org/zh-CN/docs/Web/HTTP/Access_control_CORS),然后自动触发第二次ajax方法

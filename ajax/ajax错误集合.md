@@ -1,0 +1,2 @@
+- 错误：403，只在ajax配合java后端出现过，可能是`content-type`定义错误，因为java可以直接定义接收的content-type类型，当他定义了只接收text/plain格式的字符的时候，ajax请求的时候必须指定`heaers.contentType`为`text/plain`，同时，如果请求附带的是json对象，也必须把json对象通过`JSON.stringify()方法转成字符串。
+- 错误：415，unsupported media type， 这个错误类型实际上也是和403的原因差不多，同样是因为content-type类型导致的

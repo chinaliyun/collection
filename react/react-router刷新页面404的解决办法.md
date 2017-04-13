@@ -23,3 +23,12 @@ location ~* /[\w]+(/[\w]?)? {
      root /usr/local/var/nginxwww/react-resource/11-router/src/;
 }
 ```
+
+但是,重点在这里：nginx的一个try_files方式更为简单： 用法如下：
+```
+location / {
+    root /usr/local/var/nginxwww/react-resource/11-router-4x/src;
+    try_files $uri /index.html =404;
+}
+```
+意思是所有路径中包含"/"的访问，都指向/index.html文件，据说是也同样适用于angular2版本中的路由，但是我没试过，react-router亲测成功！！

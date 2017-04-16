@@ -33,6 +33,11 @@ location ~ \.php$ {
 ```
 这是为了配置访问php文件时候服务器的设置，把PHP文件的访问全部交给CGI来运行;**注意这里修改后的路径里面去掉了之前的"script",如果没有去掉会报错"no input file special"**
 
+
+
+
+
+
 配置/启动php-cgi
 -
 - CGI 是什么
@@ -43,9 +48,9 @@ cgi是一种协议，fastcgi是一种高效执行CGI的管理工具，PHP_FPM是
 
 打开"php.ini"文件找到下面的配置并修改他们的值:
 ```
-cgi.fix_pathinfo=1
+cgi.fix_pathinfo-1
 ```
-cgi_fix_pathinfo的目的是为了能正常使用`"SCRIPT_FILENAME"`这个变量具体功能见<a href="http://www.server110.com/nginx/201404/9901.html">参考文档</a>
+`cgi_fix_pathinfo`的目的是为了能正常使用`"SCRIPT_FILENAME"`这个变量具体功能见 <a href="http://www.server110.com/nginx/201404/9901.html">参考文档</a>
 
 进入PHP目录，打开CMD控制台，运行命令`php-cgi -b 127.0.0.1:9000`，以上是运行php-cgi程序并绑定一个端口
 在nginx默认的目录下，创建一个新的phpinfo.php文件。内容如下：
@@ -56,44 +61,84 @@ cgi_fix_pathinfo的目的是为了能正常使用`"SCRIPT_FILENAME"`这个变量
 ```
 打开浏览器，输入localhost/phpinfo.php，查看是否输出PHP信息；如果成功输出了信息 ，那么就可以随意修改项目的根目录了
 
+
+
+
+
+
+
+
+
 安装/配置/启动mysql
+=
+安装MySQL服务
+
+	进入MySQL/bin目录，使用命令`mysqld.exe --install`安装服务
+
+初始化数据库信息
+
+	mysqld.exe --initialize  --use=root  --console  //控制台中会生成默认的数据库密码
+
+启动MySQL服务
+
+	net start mysql  //;
+
+登录控制台
+
+	mysql -h localhost -u root -p  //，后按照提示输入默认的密码，就登陆成功了。
+
+修改默认密码
+
+	set password=password()  //重设root用户密码
+
+
+
+
+
+
+
+
+
+
+
+安装/配置/启动phpMyadmin
 -
-- 安装MySQL服务
 
-进入MySQL/bin目录，使用命令`mysqld.exe --install`安装服务
-- 初始化数据库信息
+官网下载phpMyadmin压缩包，解压后放到nginx/html目录下，
 
-使用命令`mysqld.exe --initialize  --use=root  --console`控制台中会生成默认的数据库密码
-- 启动MySQL服务
 
-使用命令`net start mysql`;
-- 登录控制台
+#### 基础配置
 
-使用命令`mysql -h localhost -u root -p`，后按照提示输入默认的密码，就登陆成功了。
-- 修改默认密码
+打开phpMyadmin/libiary/config.default.php文件，修改以下设置：
 
-使用命令`set password=password()`重设root用户密码
 
-安装phpMyadmin
--
-官网下载phpMyadmin压缩包，解压后放到nginx/html目录下，打开phpMyadmin/libiary/config.default.php文件，修改以下设置：
-```
-$cfg['PmaAbsoluteUri'] = 'http://localhost/phpmyadmin';
-$cfg['Servers'][$i]['user'] = 'root';   //mysql登陆账户， 如果不设置需要在登录页面自己输入
-$cfg['Servers'][$i]['password'] = '';	//mysql登陆密码，如果不设置，在登陆页面需要自己输入
-$cfg['Servers'][$i]['auth_type'] = 'cookie'; 	//phpMyadmin打开方式, 建议使用cookie方式，因为更安全
-$cfg['blowfish_secret'] = '';	//短语密码，当auth_type设置为cookie的时候，这一项必须设置，否则页面会提示错误
-```
+	$cfg['PmaAbsoluteUri'] = 'http://localhost/phpmyadmin';
+	$cfg['Servers'][$i]['user'] = 'root';   //mysql登陆账户， 如果不设置需要在登录页面自己输入
+	$cfg['Servers'][$i]['password'] = '';	//mysql登陆密码，如果不设置，在登陆页面需要自己输入
+	$cfg['Servers'][$i]['auth_type'] = 'cookie'; 	//phpMyadmin打开方式, 建议使用cookie方式，因为更安全
+	$cfg['blowfish_secret'] = '';	//短语密码，当auth_type设置为cookie的时候，这一项必须设置，否则页面会提示错误
 `$cfg['Servers'][$i]['auth_type'] = 'cookie'`在此有四种模式可供选择，cookie，http，HTTP，config;
 
 config方式即输入phpmyadmin的访问网址即可直接进入，无需输入用户名和密码，是不安全的，不推荐使用。
-
 当该项设置为cookie，http或HTTP时，登录phpmyadmin需要数据用户名和密码进行验证，,具体如下：
 
-- PHP安装模式为Apache，可以使用http和cookie；
-- PHP安装模式为CGI，可以使用cookie
+	PHP安装模式为Apache，可以使用http和cookie；
+	PHP安装模式为CGI，可以使用cookie
 
-安装好后，直接通过浏览器打开localhost/phpMyadmin,输入数据库的用户名和密码，如果配置文件中已经设置，会自动填入，直接点击执行进入即可；
+#### 打开php的mysql扩展
+	
+打开php.ini文件，找到`;extension = php_mysqli.dll`字段，去掉前面的分号,打开php的mysqli扩展
+
+如果没有打开phpMyadmin是无法运行的
+
+
+#### 打开php的mbstring扩展
+	
+在php.ini文件中找到`;extension=php_mbstring.dll`,字段去掉前面的分号；
+
+如果这里没有打开，phpMyadmin会提示"没有发现 PHP 的扩展设置mbstring"错误
+
+
 
 配置批处理/自动化启动和停止
 -
@@ -142,3 +187,12 @@ exit
 在执行过程中，发现如果不以管理员身份运行，是不允许操作mysql的，但是以管理员身份运行，经常出现找不到文件的情况，经过查找，原因如下：
 
 当以管理员身份运行的时候，目录默认设置为当前的用户目录，而不是bat文件所在目录，所以要在每一个cd命令后面添加`/d`参数 ,这方面内容的支持参考<a href="http://blog.csdn.net/canba/article/details/6628968">这个文档</a>
+
+启动phpmyadmin
+-
+直接通过浏览器打开localhost/phpMyadmin,输入数据库的用户名和密码，如果配置文件中已经设置，会自动填入，直接点击执行进入即可；
+
+#### 配置phpmyadmin数据库
+在phpmyadmin目录下，找到create_tables.sql文件，导入sql文件并执行；
+
+这一步如果没走，phpmyadmin会一直提示"显示高级功能尚未完全设置部分功能未激活". 参考<a href="http://blog.csdn.net/lccee/article/details/54968969">文档</a>

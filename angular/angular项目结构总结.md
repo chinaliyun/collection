@@ -174,3 +174,77 @@ gulp.task('serve', ['build'], function() {
 gulp.task('default', ['serve'])
 
 ```
+
+bower.json
+-
+```
+{
+  "name": "webapp",
+  "authors": [
+    "liyun <chinaliyun92@gmail.com>"
+  ],
+  "description": "angularjs webapp",
+  "main": "angular",
+  "keywords": [
+    "angularjs"
+  ],
+  "license": "MIT",
+  "homepage": "",
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components",
+    "test",
+    "tests"
+  ],
+  "dependencies": {
+    "angular": "^1.6.2",
+    "angular-ui-router": "ui-router#^0.4.2",
+    "angular-cookies": "^1.6.3",
+    "angular-validation": "^1.4.3",
+    "angular-touch": "^1.6.3",
+    "angular-animate": "^1.6.3"
+  }
+}
+
+```
+
+package.json
+-
+```
+{
+  "name": "webapp",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "directories": {
+    "test": "test"
+  },
+  "dependencies": {
+    "gulp": "^3.9.1"
+  },
+  "devDependencies": {
+    "gulp": "^3.9.1",
+    "gulp-clean": "^0.3.2",
+    "gulp-concat": "^2.6.1",
+    "gulp-connect": "^5.0.0",
+    "gulp-cssmin": "^0.1.7",
+    "gulp-html2js": "^0.4.2",
+    "gulp-imagemin": "^3.1.1",
+    "gulp-less": "^3.3.0",
+    "gulp-load-plugins": "^1.5.0",
+    "gulp-plumber": "^1.1.0",
+    "gulp-rename": "^1.2.2",
+    "gulp-uglify": "^2.0.1",
+    "open": "^0.0.5",
+    "webpack-dev-server": "^2.4.1"
+  },
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC"
+}
+
+```

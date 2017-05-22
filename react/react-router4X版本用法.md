@@ -45,9 +45,10 @@ path	|location.pathname	|matches?
 Route中的渲染方法
 -
 总共有三种渲染方法：平常只会使用以下三种中的一种，最常用的是component
-- <Route component>
-- <Route render>
-- <Route children>
+- `<Route component>`
+- `<Route render>`
+- `<Route children>`
+
 以上三种方式，都会获得相同的三个属性，可以用来将他们传递到`<Route/>`的组件中使用
 - match
 - location

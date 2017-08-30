@@ -42,6 +42,35 @@ path	|location.pathname	|matches?
 /one	|/one/	|no
 /one	|/one/two	|no
 
+
+测试的例子：
+exact path='/about' 或者'/about/'的时候
+
+url|matches
+---|---
+/about | true
+/about/ | true
+/about/id | false
+
+
+strict path='/about'
+
+url|matches
+---|---
+/about | true
+/about/ | true
+/about/id | true
+
+strict path='/about/'
+
+url|matches
+---|---
+/about | false
+/about/ | true
+/about/id | true
+
+
+
 Route中的渲染方法
 -
 总共有三种渲染方法：平常只会使用以下三种中的一种，最常用的是component
